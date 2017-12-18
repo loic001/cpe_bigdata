@@ -20,7 +20,6 @@ import org.json4s.DefaultFormats
 
 import scala.reflect.runtime.universe
 
-
 object Main {
 
   implicit val formats = DefaultFormats + FieldSerializer[Area with Stairs with Parking with Accessibility]()
@@ -92,21 +91,22 @@ object Main {
     //
     // Files.write(Paths.get("areas.json"), areasJson.getBytes(StandardCharsets.UTF_8))
   //  fit model
-    val model = new StairsOnly()
 
-     //val simpleModel: PCAModel = new PCAModel(sc)
-     val modelResult = model.fit(areas)
+    val models = Map(
+      "SimpleScoreModelNoStairs" -> new SimpleScoreModelNoStairs(),
+      "StairsOnly" -> new StairsOnly(),
+      "SimpleScoreModel" -> new SimpleScoreModel()
+    )
 
-
-     //sc.stop()
-
-    //build geojson
-    val color = "#32CD32"
-    val styles = List(0.3, 0.5, 0.7).map(opacity => Style(fillColor=color, fillOpacity=opacity))
-    val geojsonString = Geojson.buildGeojsonStringFromModelResult(modelResult, styles)
-
-    //render and save plot html file
-    LeafletRenderer.render(geojsonString, "out.html")
+    models.map {
+      case (name: String, model: Model) => {
+        val modelResult = model.fit(areas)
+        val color = "#32CD32"
+        val styles = List(0.3, 0.5, 0.7).map(opacity => Style(fillColor=color, fillOpacity=opacity))
+        val geojsonString = Geojson.buildGeojsonStringFromModelResult(modelResult, styles)
+        LeafletRenderer.render(geojsonString, s"model_out/$name.html")
+      }
+    }
 
 
     //sc.stop()
