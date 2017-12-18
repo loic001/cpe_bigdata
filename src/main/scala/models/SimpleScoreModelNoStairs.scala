@@ -3,7 +3,7 @@ package models
 import models.Area
 
 //naive model
-class SimpleScoreModel extends Model {
+class SimpleScoreModelNoStairs extends Model {
 
   def scoreCalculation(stairs: Int, acc: Int, park: Int) : Int = {
     var score = 0
@@ -27,7 +27,7 @@ class SimpleScoreModel extends Model {
     //   score+=4
     // }
 
-    score-=(stairs/10).toInt
+    //score-=(stairs/10).toInt
 
     score+=(acc/30).toInt
 

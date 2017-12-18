@@ -8,8 +8,7 @@ import org.apache.spark.SparkConf
 // import org.apache.spark.mllib.linalg.distributed.RowMatrix
 
 import utils.GeoPoint
-import models.Area
-import models.{SimpleScoreModel, PCAModel}
+import models._
 import geojson.{Geojson,Style}
 import viz.LeafletRenderer
 
@@ -18,6 +17,8 @@ import sources._
 import org.json4s.native.Serialization
 import org.json4s.FieldSerializer
 import org.json4s.DefaultFormats
+
+import scala.reflect.runtime.universe
 
 
 object Main {
@@ -91,9 +92,10 @@ object Main {
     //
     // Files.write(Paths.get("areas.json"), areasJson.getBytes(StandardCharsets.UTF_8))
   //  fit model
-    val simpleModel: SimpleScoreModel = new SimpleScoreModel()
+    val model = new StairsOnly()
+
      //val simpleModel: PCAModel = new PCAModel(sc)
-     val modelResult = simpleModel.fit(areas)
+     val modelResult = model.fit(areas)
 
 
      //sc.stop()

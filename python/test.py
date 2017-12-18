@@ -187,7 +187,7 @@ if __name__ == '__main__':
     # An example with IRIS dataset
 
     from datasets import getAllData
-    df = getAllData().drop(['impot_moyen','stairs', 'sup'], axis=1)
+    df = getAllData().drop(['patrimoine_total', 'impot_moyen', 'stairs'], axis=1)
 
     # Correspondence Analysis
 
