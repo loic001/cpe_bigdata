@@ -153,7 +153,7 @@ def myAFC(df):
 if __name__ == '__main__':
 	# An example with IRIS dataset
 	from datasets import getAllData
-	df = getAllData()
+	df = getAllData().drop(['patrimoine_total', 'impot_moyen'], axis=1)
 
 	# Correspondence Analysis
 	myAFC(df)

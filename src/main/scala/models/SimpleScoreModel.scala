@@ -9,13 +9,13 @@ class SimpleScoreModel extends Model {
     println(park)
     var score = 0
     if(stairs < 30){
-      score+=1
+      score-=1
     }else if(stairs < 70){
-      score+=2
+      score-=2
     }else if(stairs < 100){
-      score+=3
+      score-=3
     }else{
-      score+=5
+      score-=5
     }
 
     if(acc < 50){
