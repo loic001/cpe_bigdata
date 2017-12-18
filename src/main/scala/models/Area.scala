@@ -5,7 +5,32 @@ import utils.GeoPoint
 import sources._
 import utils.PolygonUtils
 
+import org.json4s._
+import org.json4s.native.JsonMethods._
+import scala.io.Source
+
+import geojson._
+
 object Area{
+
+implicit val formats = DefaultFormats
+
+  def buildFromGeojson(filename: String) : List[Area] = {
+
+    val o = Array(Array(Array(1,2,3)))
+    o(0)(0)
+
+    val fileContents = Source.fromFile(filename).getLines.mkString
+
+    val parent: ParentFeature = parse(fileContents).extract[ParentFeature]
+
+    val areas = parent.features.map{feature =>
+      val polys = feature.geometry.coordinates(0)(0).map(coord => GeoPoint(coord(1), coord(0)))
+      Area(-1, -1,feature.properties.cartodb_id.toString,Some(Polygon(polys)), feature.properties.sup)
+
+    }
+    areas
+  }
 
   def buildAreas(start: GeoPoint, end: GeoPoint, blocks: Int = 20) : List[Area] = {
     //val factor = 1000000.0
@@ -32,9 +57,12 @@ object Area{
 }
 
 case class Area(
-  var area: Option[Polygon] = None,
   var x: Int,
-  var y: Int) extends Stairs with Parking with Accessibility{
+  var y: Int,
+  var name: String = "default name",
+  var area: Option[Polygon] = None,
+  var sup: Option[Double] = None) extends Stairs with Parking with Accessibility{
+
 
     val r = scala.util.Random
 

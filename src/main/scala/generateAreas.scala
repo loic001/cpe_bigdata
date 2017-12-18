@@ -20,7 +20,7 @@ import org.json4s.FieldSerializer
 import org.json4s.DefaultFormats
 
 
-object Main {
+object GenerateAreas {
 
   implicit val formats = DefaultFormats + FieldSerializer[Area with Stairs with Parking with Accessibility]()
 
@@ -82,29 +82,15 @@ object Main {
     })
 
 
-    // val areasJson = Serialization.write(areas)
+    val areasJson = Serialization.write(areas)
     // print(areasJson)
     //
     //
-    // import java.nio.file.{Paths, Files}
-    // import java.nio.charset.StandardCharsets
-    //
-    // Files.write(Paths.get("areas.json"), areasJson.getBytes(StandardCharsets.UTF_8))
+    import java.nio.file.{Paths, Files}
+    import java.nio.charset.StandardCharsets
+
+    Files.write(Paths.get("areasParis.json"), areasJson.getBytes(StandardCharsets.UTF_8))
   //  fit model
-    val simpleModel: SimpleScoreModel = new SimpleScoreModel()
-     //val simpleModel: PCAModel = new PCAModel(sc)
-     val modelResult = simpleModel.fit(areas)
-
-
-     //sc.stop()
-
-    //build geojson
-    val color = "#32CD32"
-    val styles = List(0.3, 0.5, 0.7).map(opacity => Style(fillColor=color, fillOpacity=opacity))
-    val geojsonString = Geojson.buildGeojsonStringFromModelResult(modelResult, styles)
-
-    //render and save plot html file
-    LeafletRenderer.render(geojsonString, "out.html")
 
 
     //sc.stop()

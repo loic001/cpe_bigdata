@@ -1,5 +1,6 @@
 package sources
 
+
 trait Stairs {
   var stairsCount: Int = 0
 

@@ -16,7 +16,9 @@ case class Style(
 )
 case class Properties(
   name: String = "defaultName",
-  style: Style = Style()
+  style: Style = Style(),
+  cartodb_id: Int = -1,
+  sup: Option[Double] = None
 )
 case class Geometry(`type`: String = "MultiPolygon", coordinates: List[List[List[List[Double]]]])
 case class Feature(`type`: String = "Feature", properties: Properties, geometry: Geometry)
@@ -48,7 +50,9 @@ object Geojson {
     }.map {
       case (area: Area, classCategory: Int) => {
         val prop = Properties(
-          style=styles(classCategory)
+          style=styles(classCategory),
+          cartodb_id=area.name.toInt,
+          sup=area.sup
         )
         val coords = area.area.get.points.map( coord => List(coord.longitude, coord.latitude))
         val geom = Geometry(coordinates=List(List(coords)))
@@ -62,11 +66,6 @@ object Geojson {
 
     val geojson = Serialization.write(classedFeatures)
     geojson
-
-
-
-
-
 
     //val accessMap = modelResult.accessMap
   }
