@@ -17,3 +17,11 @@ libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-native" % "3.5.2",
   "org.scalatra.scalate" %% "scalate-core" % "1.8.0"
 )
+
+
+// [Required] Enable plugin and automatically find def main(args:Array[String]) methods from the classpath
+//enablePlugins(PackPlugin)
+
+// [Optional] Specify main classes manually
+// This example creates `hello` command (target/pack/bin/hello) that calls org.mydomain.Hello#main(Array[String])
+//packMain := Map("hello" -> "org.mydomain.Hello")
